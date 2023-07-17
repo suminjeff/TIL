@@ -32,7 +32,7 @@ However this may be confusing since it's hard to see the whitespaces in your edi
 
 ---
 
-## 4. 글자 강조(Emphasis)
+## 4. 글자 스타일(Emphasis)
 
 1. 굵게(Bold)
 - Use two astericks(**) before and after the word/phrase to bold.
@@ -64,26 +64,52 @@ However this may be confusing since it's hard to see the whitespaces in your edi
 ## 6. 리스트(Lists)
 
 1. 순서가 있는 리스트(Ordered Lists)
-> Simply number the line items you wish to list orderly.
-> > 1. One
-> > 2. Two
-> > 3. Three
+Simply number the line items you wish to list orderly.
+1. One
+2. Two
+3. Three
 
 2. 순서가 없는 리스트(Unordered Lists)
-> Use dashes(-), astericks(*) or plus signs(+) in front of line items.
-> - Things to buy
->   - Rice
->   - Meatloaf
->   - Bread
+Use dashes(-), astericks(*) or plus signs(+) in front of line items.
+- Things to buy
+  - Rice
+  - Meatloaf
+  - Bread
 
+---
 
+## 7. 코드블럭 (Code Blocks)
+- Use three backticks(```) to create code blocks.
+  
+```python
+print('Like this!')
+```
 
+- Make sure to write the correct language for the code.
+  
+```javascript
+console.log('This is javascript')
+```
 
+- Use braces({}) to fence the code block
 
+```
+{
+  "firstName" : "John",
+  "lastName" : "Smith",
+  "age" : 25
+}
+```
 
+---
 
+## 8. 링크/이미지 (Link/Images)
+- Link format : `[keyword](url "optional title")`
 
+[Dog API](https://dog.ceo/dog-api/ "Dog API")
 
+- Image format : `![alt text](path)`
 
+![Puppy](https://images.dog.ceo/breeds/collie-border/n02106166_1246.jpg)
 
-
+---
