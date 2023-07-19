@@ -9,3 +9,11 @@ def factorial(num):
 
 result = factorial(5)
 print(result)
+
+print('-----------------------------------')
+
+my_list = [1, 2, 23, 3, 132, 234]
+if 23 in my_list:
+    print("exists")
+
+print('-----------------------------------')

@@ -79,6 +79,14 @@
     - 특정 알고리즘 식을 표현할 때 변수의 사용이 줄어들며, 코드의 가독성이 높아짐
     - 1개 이상의 base case(종료되는 상황)기 존재하고, 수렴하도록 작성
 - 재귀함수 예시 - 팩토리얼
+- 재귀 함수 제한
+    import sys
+    dir sys # 사용할 수 있는 함수 모음
+    getrecursionlimit # 제한 확인
+    setrecursionlimit # 
+    sys.getrecursionlimit() # 1000
+    sys.setrecursionlimit(5000)
+    sys.getrecursionlimit() # 5000
 
 ## 유용한 함수
 
@@ -142,3 +150,27 @@
 - from 절을 활용해 특정 모듈을 미리 참조하고 어떤 요소를 import할지 명시
     - from math import pi, sqrt
 - 모듈명.함수()/변수/클래스
+
+## 패키지
+- 관련된 모듈들을 하나의 디렉토리에 모아 놓은 것
+- PSL 내부 패키지
+    - 설치 없이 바로 import해서 사용
+- 외부 패키지
+    - pip를 사용해 설치 후 import 필요
+        - pip는 외부 패키지들을 설치하도록 도와주는 파이썬의 패키지 관리 시스템
+        - PyPI에 저장된 외부 패키지들을 설치 [PyPI](https://pypi.org)
+    - 패키지 설치
+        - 최신 버전 `pip install SomePackage`
+        - 특정 버전 `pip install SomePackage==1.0.5`
+        - 최소 버전 `pip install SomePackage>=1.0.4`
+    - requests 외부 패키지 설치 및 사용 예시
+        - `pip install requests`
+        - `import requests`
+        - `url = 'https://random-data-api.com/api/v2/users'`
+        - `response = requests.get(url).json()`
+        - `print(response)`
+    - 패키지 사용 목적
+        - 모듈들의 이름공간은 구분하여 충돌을 방지
+        - 모듈들을 효율적으로 관리하고 재사용할 수 있도록 돕는 역할
+
+
