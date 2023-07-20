@@ -60,6 +60,16 @@
 > `[expression for 변수 in iterable]`
 > `list(expression for 변수 in iterable)`
 
+- loop vs map vs list comprehension
+    - 성능은 일반화가 불가능 (외부요인, 상황)
+    - 대부분의 상황에서는 list comprehension이 빠르다
+    - 하지만 다른 함수, 내장함수에 따라 map이 더 빠른 경우도 많음
+    - 파이썬이 3.후반에 for loop 성능에 비약적인 향상이 있었음
+    - 그래서 극단적인 차이는 존재하지 않음
+    - 코드의 가독성 > 간결함
+    - 프로그래밍은 우리 프로그램이 어떻게 그 목적을 명확하게 전달하는지에 대한 것
+    - "작은 효율성에 대해서는 말하자면 97% 정도에 대해서는 잊어버려라. 섣부른 최적화는 모든 악의 근원이다"
+
 ---
 
 ## 참고
