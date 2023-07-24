@@ -1,2 +1,1 @@
-# print(help(dict))
-print(help(list))
+my_list = [1, 2, 3, 3, 3]
