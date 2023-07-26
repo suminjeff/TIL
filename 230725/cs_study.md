@@ -30,24 +30,24 @@
 # XML(Extensible Markup Language)
 ![HTML 예시](img/html.PNG)
 ![XML 예시](img/xml.PNG)
-- 마크업 형태를 쓰는 데이터교환 형식
+## 마크업 형태를 쓰는 데이터교환 형식
     - 마크업?
         - 마크(Mark)로 둘러싸인 언어 (태그(Tag)라고도 함)
         - 문서의 골격에 해당하는 부분을 작성하는데 사용됨
 
-- 구성
+## 구성
     - 프롤로그 : 버전, 인코딩
     - 루트요소(단 하나만)
     - 하위요소들
 
-- HTML과 XML의 차이
+## HTML과 XML의 차이
     - HTML의 용도는 데이터를 표시하는 것. XML은 데이터를 저장 및 전송 용도.
     - HTML에는 미리 정의된 태그가 있지만 사용자는 XML에서 고유한 태그를 만들고 정의 가능
     - HTML은 대/소문자를 구분하지 않지만 XML은 구분함
 
-- JSON과 XML의 차이
+## JSON과 XML의 차이
     - JSON과 비교했을 때 닫힌 태그가 계속해서 들어가기 때문에 JSON에 비해 무거움
     - 또한 Javascript Object로 변환하기 위해서 JSON보다 더 복잡한 절차를 밟아야 함 (JSON은 JSON.parse()면 됨)
 
-- XML의 활용
+## XML의 활용
     - sitemap.xml으로 쓰임
