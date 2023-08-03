@@ -1,31 +1,39 @@
 import sys
+
 sys.stdin = open("이진 탐색.txt", "r")
 
 
-def binarySearch(a, N, key):
-    start = 0
-    end = N-1
-    while start <= end:
-        middle = (start + end) // 2
-        if a[middle] == key:
-            return 1
-        elif a[middle] > key:
-            end = middle -1
+def b_search(array, end, key):
+    left = 0
+    right = end - 1
+    count = 0
+    while left <= right:
+        center = int((left + right) / 2)
+        if array[center] == key:
+            count += 1
+            return count
+        elif array[center] > key:
+            right = center - 1
+            count += 1
         else:
-            start = middle + 1
-    return 0
+            left = center + 1
+            count += 1
+    return count
 
 
 T = int(input())
-for tc in range(1, T+1):
+for tc in range(1, T + 1):
     P, Pa, Pb = map(int, input().split())
-    book = [page for page in range(1, P+1)]
+    book = [page for page in range(1, P + 1)]
 
-    if binarySearch(book, P, Pa) == binarySearch(book, P, Pb):
-        result = 0
-    if binarySearch(book, P, Pa) == 1 and binarySearch(book, P, Pb) == 0:
+    a = b_search(book, P, Pa)
+    b = b_search(book, P, Pb)
+
+    result = 0
+
+    if a < b:
         result = "A"
-    if binarySearch(book, P, Pb) == 1 and binarySearch(book, P, Pa) == 0:
+    elif a > b:
         result = "B"
 
     print(f"#{tc} {result}")

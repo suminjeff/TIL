@@ -7,7 +7,7 @@ def go_left(arr, r, c):
     for x in range(c, -1, -1):
         if x == 0:
             return 0
-        if arr[r][x-1] == 0:
+        if arr[r][x - 1] == 0:
             return x
 
 
@@ -15,7 +15,7 @@ def go_right(arr, r, c):
     for x in range(c, 100):
         if x == 99:
             return 99
-        if arr[r][x+1] == 0:
+        if arr[r][x + 1] == 0:
             return x
 
 
@@ -35,21 +35,15 @@ for tc in range(1, T + 1):
     for row in range(99, -1, -1):
         if col == 0 and field[row][col + 1] == 1:
             col = go_right(field, row, col)
-            continue
 
-        if col == 99 and field[row][col - 1] == 1:
+        elif col == 99 and field[row][col - 1] == 1:
             col = go_left(field, row, col)
-            continue
 
-        if 1 <= col < 99:
+        elif 1 <= col < 99:
             if field[row][col - 1] == 1:
                 col = go_left(field, row, col)
-                row -= 1
-                continue
 
-            if field[row][col + 1] == 1:
+            elif field[row][col + 1] == 1:
                 col = go_right(field, row, col)
-                row -= 1
-                continue
 
     print(f"#{tc} {col}")
