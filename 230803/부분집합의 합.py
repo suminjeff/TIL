@@ -32,7 +32,6 @@ for tc in range(1, T + 1):
             if i & (1 << j):
                 subset.append(arr[j])
         subset_list.append(subset)
-
     for subsets in subset_list:
         if my_len(subsets) == N and my_sum(subsets) == K:
             count += 1
