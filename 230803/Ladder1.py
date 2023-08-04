@@ -1,6 +1,6 @@
 import sys
 
-sys.stdin = open("input.txt", "r")
+sys.stdin = open("ladder.txt", "r")
 
 
 def go_left(arr, r, c):

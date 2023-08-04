@@ -15,20 +15,15 @@ T = int(input())
 for tc in range(1, T + 1):
     N, M = map(int, input().split())
     arr = [list(map(int, input().split())) for _ in range(N)]
-    delta_row = [0, 0, 1, 0, -1]
-    delta_col = [0, 1, 0, -1, 0]
-
-    total_list = []
+    temp_list = []
     for row in range(N):
         for col in range(M):
-            total = 0
-            for i in range(5):
-                dr = row + delta_row[i]
-                dc = col + delta_col[i]
-                for j in range(1, arr[row][col]+1):
-                    if 0 <= dr + j < N and 0 <= dc + j < M:
-                        total += arr[dr+j][dc+j]
-            total_list.append(total)
-
-    print(f"#{tc} {total_list} {len(total_list)}")
-    print(f"#{tc} {my_max(total_list)}")
+            temp = arr[row][col]
+            for delta in range(4):
+                for flower in range(1, arr[row][col]+1):
+                    dr = [0, flower, 0, -1 * flower]
+                    dc = [flower, 0, -1 * flower, 0]
+                    if 0 <= row + dr[delta] < N and 0 <= col + dc[delta] < M:
+                        temp += arr[row + dr[delta]][col + dc[delta]]
+            temp_list.append(temp)
+    print(f"#{tc} {my_max(temp_list)}")
