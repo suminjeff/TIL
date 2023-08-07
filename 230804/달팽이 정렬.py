@@ -20,16 +20,32 @@ for tc in range(1, T + 1):
     for n in range(N):
         my_arr += list(map(int, input().split()))
 
-    # selection_sort(my_arr, N)
-
+    selection_sort(my_arr, N*N)
 
     # 델타 탐색 (우 하 좌 상)
     dr = [0, 1, 0, -1]
     dc = [1, 0, -1, 0]
 
-    v = 1
     r = 0
     c = 0
 
+    delta = 0
 
-    print(f"#{tc} {my_arr}")
+    arr = [[0]*N for _ in range(N)]
+
+    for n in range(N*N):
+        arr[r][c] = my_arr[n]
+        r += dr[delta]
+        c += dc[delta]
+        if r < 0 or c < 0 or r >= N or c >= N or arr[r][c] != 0:
+            r -= dr[delta]
+            c -= dc[delta]
+
+            delta = (delta + 1) % 4
+
+            r += dr[delta]
+            c += dc[delta]
+
+    print(f"#{tc}")
+    for i in range(N):
+        print(*arr[i])
