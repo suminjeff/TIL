@@ -26,8 +26,6 @@ for tc in range(1, T + 1):
         for k in temp:
             if my_count(temp, k) > 1:
                 ans = False
-        if total != 45:
-            ans = False
 
     for col in range(N):
         total = 0
@@ -38,8 +36,6 @@ for tc in range(1, T + 1):
         for k in temp:
             if my_count(temp, k) > 1:
                 ans = False
-        if total != 45:
-            ans = False
 
     for row in range(0, N, N//3):
         for col in range(0, N, N//3):
@@ -52,7 +48,5 @@ for tc in range(1, T + 1):
             for k in temp:
                 if my_count(temp, k) > 1:
                     ans = False
-            if total != 45:
-                ans = False
 
     print(f"#{tc} {int(ans)}")
