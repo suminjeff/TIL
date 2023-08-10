@@ -6,13 +6,11 @@ N = int(input())
 max_count = 0
 
 for i in range(1, N + 1):
-    num = N - i
-    count = 0
     my_list = []
+    num = N - i
     while num >= 0:
-        num = i - num
-        count += 1
-        if max_count < count:
-            max_count = count
+
+    if max_count < len(my_list):
+        max_count = len(my_list)
 
 print(max_count)

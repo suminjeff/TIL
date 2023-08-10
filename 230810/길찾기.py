@@ -1,6 +1,6 @@
 import sys
 
-sys.stdin = open("N과 M(1).txt", "r")
+sys.stdin = open("길찾기.txt", "r")
 
 
 def dfs(n, V, adj_m):
@@ -9,7 +9,7 @@ def dfs(n, V, adj_m):
     visited[n] = 1
     result = []
     while True:
-        for w in range(1, V+1):
+        for w in range(1, V):
             if adj_m[n][w] == 1 and visited[w] == 0:
                 stack.append(n)
                 n = w
@@ -24,12 +24,16 @@ def dfs(n, V, adj_m):
     return result
 
 
-N, M = map(int, input().split())
-arr = [n + 1 for n in range(N)]
-adj_m = [[0]*(N+1) for _ in range(N+1)]
-for i in range(1, N+1):
-    for j in range(1, N+1):
-        adj_m[i][j] = 1
+T = 10
+for _ in range(1, T+1):
+    tc, E = map(int, input().split())
+    edge = list(map(int, input().split()))
+    adj_m = [[0]*100 for _ in range(100)]
+    for i in range(E):
+        v1, v2 = edge[i*2], edge[i*2+1]
+        adj_m[v1][v2] = 1
 
-for i in range(1, N+1):
-    print(dfs(i, 4, adj_m))
+    ans = 0
+    if 99 in dfs(0, 100, adj_m):
+        ans = 1
+    print(f"#{tc} {ans}")
