@@ -4,6 +4,7 @@ sys.stdin = open("N과 M(1).txt", "r")
 
 
 def dfs(n, V, adj_m):
+    global M
     stack = []
     visited = [0] * (V+1)
     visited[n] = 1
@@ -31,5 +32,4 @@ for i in range(1, N+1):
     for j in range(1, N+1):
         adj_m[i][j] = 1
 
-for i in range(1, N+1):
-    print(dfs(i, 4, adj_m))
+print(dfs(1, N, adj_m))
