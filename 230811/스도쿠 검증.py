@@ -28,10 +28,14 @@ for tc in range(1, T+1):
 
     for i in range(0, 9, 3):
         for j in range(0, 9, 3):
+            cnt = [0] * 10
             for row in range(i, i+3):
                 for col in range(j, j+3):
-
-
+                    cnt[arr[row][col]] += 1
+            for k in range(1, 10):
+                if cnt[k] == 0:
+                    ans = 0
+                    break
 
     print(f"#{tc} {ans}")
 
