@@ -3,39 +3,43 @@ import sys
 sys.stdin = open("Forth.txt", "r")
 
 T = int(input())
-for tc in range(1, T+1):
+for tc in range(1, T + 1):
     expression = list(input().split())
-    try:
-        stack = []
-        a1 = 0
-        a2 = 0
-        for i in range(len(expression)):
-            if expression[i].isnumeric():
-                stack.append(int(expression[i]))
-            elif expression[i] == "+":
-                if len(stack) > 1:
-                    a1 = stack.pop()
-                    a2 = stack.pop()
-                    stack.append(a1 + a2)
-            elif expression[i] == "-":
-                if len(stack) > 1:
-                    a1 = stack.pop()
-                    a2 = stack.pop()
-                    stack.append(a1 - a2)
-            elif expression[i] == "*":
-                if len(stack) > 1:
-                    a1 = stack.pop()
-                    a2 = stack.pop()
-                    stack.append(a1 * a2)
-            elif expression[i] == "/":
-                if len(stack) > 1:
-                    a1 = stack.pop()
-                    a2 = stack.pop()
-                    stack.append(int(a1 / a2))
-            elif expression[i] == '.':
-                if len(stack) == 1:
-                    print(f"#{tc} {stack.pop()}")
-                else:
-                    print(f"#{tc} error")
-    except:
-        print(f"#{tc} error")
+    i = 0
+    stack = []
+    while True:
+        if expression[i] in "+-*/":
+            if len(stack) > 1:
+                if expression[i] == "+":
+                    b = stack.pop()
+                    a = stack.pop()
+                    stack.append(a + b)
+                    i += 1
+                elif expression[i] == "-":
+                    b = stack.pop()
+                    a = stack.pop()
+                    stack.append(a - b)
+                    i += 1
+                elif expression[i] == "*":
+                    b = stack.pop()
+                    a = stack.pop()
+                    stack.append(a * b)
+                    i += 1
+                elif expression[i] == "/":
+                    b = stack.pop()
+                    a = stack.pop()
+                    stack.append(a // b)
+                    i += 1
+            else:
+                print(f"#{tc} error")
+                break
+        elif expression[i] == ".":
+            if len(stack) == 1:
+                print(f"#{tc} {stack[0]}")
+                break
+            else:
+                print(f"#{tc} error")
+                break
+        else:
+            stack.append(int(expression[i]))
+            i += 1
