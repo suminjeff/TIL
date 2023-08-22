@@ -5,24 +5,37 @@ sys.stdin = open('참외밭.txt', 'r')
 # K = 1제곱미터에 자라는 참외 개수
 K = int(input())
 
-max_h = 0
-min_h = 501
-max_w = 0
-min_w = 501
-
+drc = []
+zig = []
+wh = [[] for _ in range(5)]
+new = []
+front = 0
+rear = 0
 for _ in range(6):
     d, m = map(int, input().split())
-    if d == 1 or d == 2:
-        if max_w < m:
-            max_w = m
-        if min_w > m:
-            min_w = m
-    if d == 3 or d == 4:
-        if max_h < m:
-            max_h = m
-        if min_h > m:
-            min_h = m
+    wh[d].append(m)
+    if d in drc:
+        zig.append(d)
+    drc.append(d)
+    new.append([d, m])
 
-ans = K * (max_w * max_h - min_w * min_h)
+for i in range(6):
+    if new[i][0] == 4:
+        for i in range(i):
+            popped = new.pop(0)
+            new.append(popped)
+max_h = 0
+max_w = 0
+for i in range(6):
+    if new[i][0] == 1 or new[i][0] == 2:
+        if max_w < new[i][1]:
+            max_w = new[i][1]
+    if new[i][0] == 3 or new[i][0] == 4:
+        if max_h < new[i][1]:
+            max_h = new[i][1]
+
+max_area = max_h * max_w
+if new[0][1] == max_h:
+else:
+
 print(ans)
-print(max_w, max_h, min_w, min_h)
