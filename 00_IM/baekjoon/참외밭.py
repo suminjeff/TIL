@@ -5,37 +5,35 @@ sys.stdin = open('참외밭.txt', 'r')
 # K = 1제곱미터에 자라는 참외 개수
 K = int(input())
 
-drc = []
-zig = []
-wh = [[] for _ in range(5)]
-new = []
-front = 0
-rear = 0
-for _ in range(6):
-    d, m = map(int, input().split())
-    wh[d].append(m)
-    if d in drc:
-        zig.append(d)
-    drc.append(d)
-    new.append([d, m])
-
+max_width = 0
+max_width_idx = 0
+max_height = 0
+max_height_idx = 0
+arr = []
 for i in range(6):
-    if new[i][0] == 4:
-        for i in range(i):
-            popped = new.pop(0)
-            new.append(popped)
-max_h = 0
-max_w = 0
-for i in range(6):
-    if new[i][0] == 1 or new[i][0] == 2:
-        if max_w < new[i][1]:
-            max_w = new[i][1]
-    if new[i][0] == 3 or new[i][0] == 4:
-        if max_h < new[i][1]:
-            max_h = new[i][1]
+    direction, meter = map(int, input().split())
+    arr.append([direction, meter])
+    if direction == 1 or direction == 2:
+        if max_width < meter:
+            max_width = meter
+            max_width_idx = i
+    elif direction == 3 or direction == 4:
+        if max_height < meter:
+            max_height = meter
+            max_height_idx = i
 
-max_area = max_h * max_w
-if new[0][1] == max_h:
-else:
+min_width = 0
+min_height = 0
+if (max_height_idx + 1) % 6 < (max_width_idx + 1) % 6 or ((max_width_idx + 1) % 6 == 0 and (max_height_idx + 1) % 6 == 5):
+    min_width_idx = (max_width_idx+2) % 6
+    min_height_idx = (max_height_idx+4) % 6
+    min_width = arr[min_width_idx][1]
+    min_height = arr[min_height_idx][1]
+elif (max_width_idx + 1) % 6 < (max_height_idx + 1) % 6 or ((max_height_idx + 1) % 6 == 0 and (max_width_idx + 1) % 6 == 5):
+    min_width_idx = (max_width_idx+4) % 6
+    min_height_idx = (max_height_idx+2) % 6
+    min_width = arr[min_width_idx][1]
+    min_height = arr[min_height_idx][1]
 
+ans = K * (max_width * max_height - min_width * min_height)
 print(ans)
