@@ -2,6 +2,10 @@ import sys
 
 sys.stdin = open('참외밭.txt', 'r')
 
+T = int(input())
+for tc in range(1, T+1):
+    print(f"#{tc}")
+
 # K = 1제곱미터에 자라는 참외 개수
 K = int(input())
 
