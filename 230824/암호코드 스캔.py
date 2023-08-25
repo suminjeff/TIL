@@ -32,7 +32,7 @@ for tc in range(1, T+1):
     # 2진수 합치기
     temp_list = set()
     for r in range(N):
-        temp = "".join(arr[r]).strip("0")
+        temp = "".join(arr[r]).rstrip("0")
         if temp:
             temp.lstrip("0")
             # print(f"#{tc}", temp)
@@ -88,7 +88,7 @@ for tc in range(1, T+1):
                     temp_check.append(n[i])
                 if temp_check not in done:
                     done.append(temp_check)
-
+    print(done)
     # 해독 암호 검증 및 출력
     ans = 0
     for decoded in done:
