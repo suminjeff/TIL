@@ -2,6 +2,22 @@ import sys
 
 sys.stdin = open('암호코드 스캔.txt', 'r')
 
+
+def hex_to_bin(hex_str):
+    bin_str = ""
+    for h in hex_str:
+        bin_str += f"{int(h, base=16):04b}"
+    return bin_str
+
+
+def get_width(row):
+    count = 0
+    end_point = 0
+    before = "0"
+    change = 0
+
+
+
 # 뒤집었을 때 거꾸로 비율 : [10진수 값, 첫번째 0들 비율]
 BP_ratio = {
     (1, 1, 2): [0, 3],
@@ -20,42 +36,12 @@ BP_ratio = {
 T = int(input())
 for tc in range(1, T+1):
     N, M = map(int, input().split())
-    arr = [input() for _ in range(N)]
-    vstd = [[0]*M for _ in range(N)]
-    bicodes = []
+    arr = [list(input()) for _ in range(N)]
+    hexcodes = []
     for row in range(N):
         for col in range(M):
-            if arr[row][col] != "0" and not vstd[row][col]:
-                v = arr[row][col]
-                vstd[row][col] = 1
-                hexcode = ""
-                bicode = ""
-                
-                # 행의 범위 찾기
-                r = row
-                while r < N:
-                    if arr[r][col] == v:
-                        r += 1
-                    else:
-                        break
-                
-                # 열의 범위와 암호 찾기
-                c = col
-                while c < M:
-                    if arr[row][c] != "0":
-                        hexcode += arr[row][c]
-                        c += 1
-                    else:
-                        for hex in hexcode:
-                            bicode += bin(int(hex, 16)).lstrip("0b").zfill(4)
-                        bicode = bicode.rstrip("0")
-                        c += 1
-                        # if len(bicode) % 7 != 0:
-                        #     hexcode += arr[row][c]
-                        #     c += 1
-                        # else:
-                        #     bicodes.append(bicode)
-                        #     break
-            else:
-                vstd[row][col] = 1
-                continue
+            if arr[row][col] != "0":
+                end_r = 0
+                for r in range(N):
+                    if arr[r][col] != "0":
+                        end_r = r
