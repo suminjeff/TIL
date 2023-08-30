@@ -6,13 +6,15 @@ import time
 start_time = time.time()
 
 
-def dfs(v, adj_l, vstd, division):
+def dfs(v, vstd, division):
     vstd[v] = 1
-    for i in adj_l[v]:
-        if i in division:
-            dfs(i, adj_l, vstd)
+    for i in graph[v]:
+        if not vstd[i]:
+            if i in division:
+                dfs(i, vstd, division)
         else:
             continue
+    return
 
 
 def get_div2(div1, total):
@@ -47,8 +49,17 @@ division1 = subsets(N)
 division2 = []
 for d1 in division1:
     division2.append(get_div2(d1, cities))
+# print(graph)
+# print(division1)
 for d1 in division1:
-
+    if len(d1) > 1:
+        visited = [0] * (N+1)
+        for i in d1:
+            dfs(i, visited, division1)
+        print(d1)
+        print(visited)
+        # if sum(visited) == len(d1):
+        #     print(d1)
 
 
 end_time = time.time()
