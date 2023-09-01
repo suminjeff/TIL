@@ -21,7 +21,7 @@ def swipe(number):
                 if v != 0:
                     if stack:
                         if v == stack[top]:
-                            stack[top] += v
+                            stack[top] = str(stack[top] + v)
                             arr[row][col] = 0
                             continue
                     stack.append(v)
@@ -30,7 +30,7 @@ def swipe(number):
             row = 0
             while stack:
                 v = stack.pop(0)
-                arr[row][col] = v
+                arr[row][col] = int(v)
                 row += 1
 
     # down
@@ -43,7 +43,7 @@ def swipe(number):
                 if v != 0:
                     if stack:
                         if v == stack[top]:
-                            stack[top] += v
+                            stack[top] = str(stack[top] + v)
                             arr[row][col] = 0
                             continue
                     stack.append(v)
@@ -52,7 +52,7 @@ def swipe(number):
             row = N-1
             while stack:
                 v = stack.pop(0)
-                arr[row][col] = v
+                arr[row][col] = int(v)
                 row -= 1
     # left
     elif number == 3:
@@ -64,7 +64,7 @@ def swipe(number):
                 if v != 0:
                     if stack:
                         if v == stack[top]:
-                            stack[top] += v
+                            stack[top] = str(stack[top] + v)
                             arr[row][col] = 0
                             continue
                     stack.append(v)
@@ -73,7 +73,7 @@ def swipe(number):
             col = 0
             while stack:
                 v = stack.pop(0)
-                arr[row][col] = v
+                arr[row][col] = int(v)
                 col += 1
     # right
     elif number == 4:
@@ -85,7 +85,7 @@ def swipe(number):
                 if v != 0:
                     if stack:
                         if v == stack[top]:
-                            stack[top] += v
+                            stack[top] = str(stack[top] + v)
                             arr[row][col] = 0
                             continue
                     stack.append(v)
@@ -94,7 +94,7 @@ def swipe(number):
             col = N-1
             while stack:
                 v = stack.pop(0)
-                arr[row][col] = v
+                arr[row][col] = int(v)
                 col -= 1
 
 
@@ -108,7 +108,6 @@ for move in product(moves, repeat=5):
     arr = copy.deepcopy(input_arr)
     for i in move:
         swipe(i)
-    print(arr)
     max_v = 0
     for r in range(N):
         for c in range(N):
