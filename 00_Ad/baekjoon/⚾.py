@@ -1,9 +1,16 @@
 import sys
+from itertools import permutations
 
 sys.stdin = open("⚾.txt", "r")
 
 N = int(input())
 arr = [list(map(int, input().split())) for _ in range(N)]
+
+# 타순 순열 나누기
+
+
+
+
 
 for n in range(1, 9):
     lineup = [[[] for _ in range(9)] for _ in range(N)]
@@ -11,7 +18,6 @@ for n in range(1, 9):
     for r in range(N):
         for c in range(9):
             lineup[r][c] =
-
 
     inning = 0
     out_cnt = 0
