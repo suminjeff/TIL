@@ -5,51 +5,41 @@ sys.stdin = open("⚾.txt", "r")
 
 N = int(input())
 arr = [list(map(int, input().split())) for _ in range(N)]
+lineup_idx = [n for n in range(9)]
+possible_lineup = []
 
 # 타순 순열 나누기
+for perm in permutations(lineup_idx, 9):
+    if perm[3] == 0:
+        possible_lineup.append(perm)
 
-
-
-
-
-for n in range(1, 9):
-    lineup = [[[] for _ in range(9)] for _ in range(N)]
-    ordering = n
-    for r in range(N):
-        for c in range(9):
-            lineup[r][c] =
-
+max_points = 0
+for lineup in possible_lineup:
     inning = 0
     out_cnt = 0
     points = 0
     base = [0] * 4
-    home = 0
-    rear = 0
-    order = n
+    order = 0
     while inning < N:
-        if order == (n + 3) % 9:
-            batter = arr[inning][order]
-        else:
-            batter = arr[inning][order]
+        batter = arr[inning][lineup[order]]
         if batter == 0:
             out_cnt += 1
             if out_cnt % 3 == 0:
                 inning += 1
-        else:
-            for _ in range(batter):
-                if home == 0:
-                    home = 3
-                else:
-                    home -= 1
-                if base[home] == 1:
-                    points += 1
-            rear = (home + batter) % 4
-            base[rear] = 1
-            if base[home] == 1:
-                points += 1
-                base[home] = 0
-        if order == (n + 3) % 9:
-            order = (n + 4) % 9
-        else:
-            order = (order + 1) % 9
-    print(points)
+        elif batter == 1:
+            points += base[3]
+            base[3], base[2], base[1] = base[2], base[1], 1
+        elif batter == 2:
+            points += base[3] + base[2]
+            base[3], base[2], base[1] = base[1], 1, 0
+        elif batter == 3:
+            points += base[3] + base[2] + base[1]
+            base[3], base[2], base[1] = 1, 0, 0
+        elif batter == 4:
+            points += base[3] + base[2] + base[1] + 1
+            base[3], base[2], base[1] = 0, 0, 0
+        order = (order + 1) % 9
+    if max_points < points:
+        max_points = points
+        # print(lineup, points)
+print(max_points)
