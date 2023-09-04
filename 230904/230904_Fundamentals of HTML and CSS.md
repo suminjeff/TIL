@@ -1,0 +1,68 @@
+## Web이란
+- World Wide Web의 줄임말
+    - 인터넷으로 연결된 컴퓨터들이 정보를 공유하는 거대한 정보 공간
+- Web
+    - Web site, Web application 등을 통해 사용자들이 정보를 검색하고 상호작용하는 기술
+- Web site
+    - 인터넷에서 여러 개의 Web page가 모인 것
+    - 사용자들에게 정보나 서비스를 제공하는 공간
+- Web page (우리의 목표)
+    - HTML, CSS 등의 웹 기술을 이용해 만들어진 Website를 구성하는 하나의 요소
+    - Web page 구성 요소
+        - Structure (HTML)
+        - Styling (CSS)
+        - Behavior (Javascript)
+
+### HTML
+- HyperText Markup Language
+    - 웹 페이지의 의미와 구조를 정의하는 언어
+- HyperText
+    - 웹페이지를 다른 페이지로 연결하는 링크
+    - 참조를 통해 사용자가 한 문서에서 다른 문서로 즉시 접근할 수 있는 텍스트
+- Markup Language
+    - 태그 등을 이용해 문서나 데이터의 구조를 명시하는 언어
+- Head와 Body
+    - Head
+        - HTML 문서에 관련된 설명, 설정 등
+        - 사용자에게 보이지 않음
+    - Body
+        - 페이지에 표시되는 모든 콘텐츠
+    - Attributes(속성)
+        - 규칙
+            - 요소 이름과 속성 사이에 공백이 있어야 함
+            - 하나 이상의 속성들이 있는 경우엔 속성 사이에 공백으로 구분함
+            - 속성 값은 열고 닫는 따옴표로 감싸야 함
+        - 목적
+            - 나타내고 싶지 않지만 추가적인 기능, 내용을 담고 싶을 때 사용
+            - CSS에 해당 요소를 선택하기 위한 값으로 활용됨
+    - p 태그
+        - 문단 (Paragraph)
+    - a 태그
+        - 하이퍼텍스트 만들 수 있음
+    - img 태그
+        - 이미지 경로로 이미지를 불러옴 (로컬/온라인 path)
+- HTML Text Structure
+    - HTML의 주요 목적 중 하나는 텍스트 구조와 의미를 제공하는 것
+    - Headings & Paragraphs
+        - h1~6, p
+        - h1은 문서 1개당 1개만 존재하는 게 좋음
+    - Lists
+        - ol, ul, li
+    - Emphasis & Importance
+        - em, strong
+
+### CSS
+- Cascading Style Sheet
+    - 웹페이지의 디자인과 레이아웃을 구성하는 언어
+- CSS 구문
+    - 선택자(Selector) 선언(Declaration) 속성(Property) 값(Value)
+- 선택자
+    - 기본 선택자
+        - (*) 전체 선택자
+        - (tag) 요소 선택자
+        - (class) 클래스 선택자
+        - (id) 아이디 선택자
+        - (attr) 속성 선택자
+    - 결합자 (Combinators)
+        - 자손 결합자("" (space))
+        - 자식 결합자(>)
