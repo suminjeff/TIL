@@ -64,11 +64,12 @@ for _ in range(M):
 dr = [-1, -1, -1, 0, 0, 1, 1, 1]
 dc = [-1, 0, 1, -1, 1, -1, 0, 1]
 
-for year in range(K):
+for _ in range(K):
     spring()
     summer()
     fall()
     winter()
+
 
 ans = 0
 for r in range(N):
