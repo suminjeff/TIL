@@ -1,0 +1,82 @@
+.card {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  width: 500px;
+  height: 280px;
+  border: 2px solid black;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.section1 {
+  box-sizing: inherit;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 35%;
+  height: 75%;
+  justify-content: center;
+}
+
+.section2 {
+  box-sizing: inherit;
+  position: absolute;
+  margin-top: 10px;
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 35%;
+  height: 75%;
+  justify-content: center;
+}
+
+.section3 {
+  display: flex;
+  flex-direction: row;
+  box-sizing: inherit;
+  width: inherit;
+  height: 20%;
+  justify-content: center;
+}
+
+
+.picture {
+  box-sizing: inherit;
+  width: 140px;
+  align-self: center;
+}
+
+.name {
+  padding-top: 15px;
+  box-sizing: border-box;
+  font-weight: bold;
+  text-align: center;
+  align-self: center;
+}
+
+.company_name {
+  box-sizing: inherit;
+  padding-top: 40px;
+  align-self: center;
+  box-sizing: border-box;
+  font-weight: bold;
+  text-align: center;
+}
+
+.contact {
+  box-sizing: inherit;
+  margin-bottom: 0px;
+  align-self: flex-end;
+  box-sizing: border-box;
+}
+
+.description {
+  border-top: 0.5px solid grey;
+  width: 90%;
+  box-sizing: inherit;
+  text-align: right;
+}
