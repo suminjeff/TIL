@@ -1,6 +1,54 @@
 import sys
-
+import copy
 sys.stdin = open("활주로 건설.txt", "r")
+
+
+def cnt(temp_list):
+    global X
+    res = 0
+    for i in range(N):
+        flag = True
+        clone = copy.deepcopy(temp_list[i])
+        for j in range(len(temp_list[i]) - 1):
+            block1, block2 = temp_list[i][j], temp_list[i][j+1]
+            clone1, clone2 = clone[j], clone[j+1]
+            v1, v2 = block1[0], block2[0]
+            if v1 < v2:
+                if v1 + 1 == v2:
+                    if clone1.count(v1) < X:
+                        flag = False
+                        break
+                    else:
+                        x = 0
+                        for k in range(len(block1)):
+                            if clone1[k] != 0:
+                                clone1[k] = 0
+                                x += 1
+                            if x == X:
+                                break
+                else:
+                    flag = False
+                    break
+            elif v1 > v2:
+                if v2 + 1 == v1:
+                    if clone2.count(v2) < X:
+                        flag = False
+                        break
+                    else:
+                        x = 0
+                        for k in range(len(block2)):
+                            if clone2[k] != 0:
+                                clone2[k] = 0
+                                x += 1
+                            if x == X:
+                                break
+                else:
+                    flag = False
+                    break
+        if flag:
+            res += 1
+    return res
+
 
 T = int(input())
 for tc in range(1, T+1):
@@ -9,8 +57,8 @@ for tc in range(1, T+1):
     ans = 0
     row_ans = 0
     # 행 방향
+    row_blocks = []
     for r in range(N):
-        max_v = max(arr[r])
         stack = []
         temp = []
         for c in range(N):
@@ -25,40 +73,30 @@ for tc in range(1, T+1):
                 stack.append(v)
             if c == N-1:
                 temp.append(stack)
+        row_blocks.append(temp)
 
-        for i in range(len(temp)-1):
-            block1, block2 = temp[i], temp[i+1]
-            if block1[0] < block2[0]:
-                if len(block1) < X:
-                    break
-            elif block1[0] > block2[0]:
-                if len(block2) < X:
-                    break
-
-
-
-
-
-    col_ans = 0
-    # 열방향
+    # 열 방향
+    col_blocks = []
     for c in range(N):
-        max_v = 0
-        for row in range(N):
-            max_v = max(max_v, arr[row][c])
-        checkbox = [n for n in range(max_v)]
-        for v in range(1, max_v):
-            cnt = 0
-            for r in range(N):
-                if arr[r][c] == v:
-                    cnt += 1
-                    if cnt >= X:
-                        checkbox[v] = 1
-                        break
+        stack = []
+        temp = []
+        for r in range(N):
+            v = arr[r][c]
+            if stack:
+                if v == stack[-1]:
+                    stack.append(v)
                 else:
-                    cnt = 0
-        if sum(checkbox) == max_v - 1:
-            ans += 1
-            col_ans += 1
+                    temp.append(stack)
+                    stack = [v]
+            else:
+                stack.append(v)
+            if r == N-1:
+                temp.append(stack)
+        col_blocks.append(temp)
 
+    ans += cnt(row_blocks)
+    ans += cnt(col_blocks)
     print(f"#{tc} {ans}")
-    print(f"#{tc} {row_ans} {col_ans}")
+
+
+
