@@ -1,0 +1,14 @@
+## Django Model
+- Model
+  - 데이터베이스를 관리하는 역할
+  - DB의 테이블을 정의하고 데이터를 조작할 수 있는 기능들을 제공
+    - 테이브 구조를 설계하는 청사진(blueprint)
+- 레코드(행) 필드(열)
+- 1단계
+  - model 클래스 설계도 초안
+- 2단계
+  - makemigrations
+  - migration 파일 (최종 설계도)
+- 3단계
+  - migrate
+  - db.sqlite3 (DB)
