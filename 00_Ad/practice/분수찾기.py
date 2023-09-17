@@ -7,11 +7,16 @@ N = int(input())
 cnt = 1
 numerator, denominator = 1, 1
 
-while cnt != N:
-    numerator += 1
-    for i in range(numerator, 1, -1):
+while True:
+    M = denominator + 1
+    numerator = M
+    for i in range(1, M+1):
         numerator -= 1
-        denominator += 1
+        denominator = i
         cnt += 1
-ans = f"{numerator} / {denominator}"
+        if cnt == N:
+            break
+    numerator += 1
+
+ans = f"{numerator}/{denominator}"
 print(ans)
