@@ -1,9 +1,10 @@
 import sys
+from copy import deepcopy
 
 sys.stdin = open("보호 필름.txt", "r")
 
 
-def test():
+def test(D, W, K, arr):
     for c in range(W):
         stack = []
         cnt = 0
@@ -29,33 +30,47 @@ def test():
     return True
 
 
-def dfs(d, array, visited):
-    global min_d
-    if test():
-        d -= 1
-        min_d = min(min_d, d)
-        return
-    elif d >= min_d:
-        return
-    for j in range(D):
-        for k in range(1):
-            if not visited[j]:
-                visited[j] = 1
-                array[j] = [k] * W
-                dfs(d+1, array, visited)
-
-
-
-
 T = int(input())
 for tc in range(1, T+1):
     D, W, K = map(int, input().split())
     arr = [list(map(int, input().split())) for _ in range(D)]
-    if test():
-        print(f"#{tc} {0}")
+
+    if test(D, W, K, arr):
+        min_cnt = 0
     else:
-        min_d = D
-        visited = [0] * D
-        dfs(0, arr, visited)
-        print(f"#{tc} {min_d}")
+        min_cnt = float('inf')
+        for row in range(D):
+            for treatment in range(2):
+                visited = [0] * D
+                visited[row] = 1
+                que = [[row, treatment]]
+                clone = deepcopy(arr)
+                cnt = 0
+                while que:
+                    r, t = que.pop(0)
+                    clone[r] = [t] * W
+                    cnt += 1
+                    if test(D, W, K, clone):
+                        break
+                    elif cnt >= min_cnt:
+                        break
+                    for d in range(D):
+                        if not visited[d]:
+                            visited[d] = 1
+                            que.append([d, 0])
+                            que.append([d, 1])
+
+
+
+                min_cnt = min(min_cnt, cnt)
+
+
+                visited = [0] * D
+                visited[row] = 1
+                clone[row] = [treatment] * W
+
+
+
+
+    print(f"#{tc} {min_cnt}")
 
