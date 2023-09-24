@@ -26,6 +26,8 @@ def brcheck(string):
                     stack.append(s)
                 elif s == ")" or s == "]":
                     return "no"
+    if stack:
+        return "no"
     return "yes"
 
 
