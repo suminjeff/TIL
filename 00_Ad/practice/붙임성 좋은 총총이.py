@@ -8,6 +8,7 @@ key = "Chong Chong"
 
 people = {}
 N = int(input())
+flag = False
 for _ in range(N):
     A, B = input().split()
     if A == key or B == key:
