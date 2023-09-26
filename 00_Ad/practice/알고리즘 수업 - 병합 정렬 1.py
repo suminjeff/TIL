@@ -4,29 +4,37 @@ input = sys.stdin.readline
 
 
 def merge_sort(arr):
-    global cnt
-    global ans
-    if len(arr) < 2:
-        return arr
+    def sort(low, high):
+        if high - low < 2:
+            return
+        mid = (low + high) // 2
+        sort(low, mid)
+        sort(mid, high)
+        merge(low, mid, high)
 
-    mid = len(arr) // 2
-    left = merge_sort(arr[:mid])
-    right = merge_sort(arr[mid:])
+    def merge(low, mid, high):
+        temp = []
+        l, h = low, mid
 
-    merged = []
-    l = r = 0
-    while l < len(left) and r < len(right):
-        if left[l] < right[r]:
-            merged.append(left[l])
+        while l < mid and h < high:
+            if arr[l] < arr[h]:
+                temp.append(arr[l])
+                l += 1
+            else:
+                temp.append(arr[h])
+                h += 1
+
+        while l < mid:
+            temp.append(arr[l])
             l += 1
-        else:
-            merged.append(right[r])
-            r += 1
-        cnt += 1
+        while h < high:
+            temp.append(arr[h])
+            h += 1
 
-    merged += left[l:]
-    merged += right[r:]
-    return merged
+        for i in range(low, high):
+            arr[i] = temp[i - low]
+
+    return sort(0, len(arr))
 
 
 N, K = map(int, input().split())
@@ -34,5 +42,4 @@ arr = list(map(int, input().split()))
 cnt = 0
 ans = 0
 merge_sort(arr)
-# merged = merge_sort(arr)
-print(cnt)
+print(arr)
