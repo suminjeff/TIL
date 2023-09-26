@@ -9,5 +9,13 @@ def factorial(num):
         ans *= i
     return ans
 
+
+def factorial2(num):
+    if num == 1:
+        return 1
+    return num * factorial(num-1)
+
+
+
 N = int(input())
 print(factorial(N))
