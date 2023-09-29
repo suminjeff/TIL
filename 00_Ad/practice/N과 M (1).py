@@ -1,5 +1,5 @@
 import sys
-sys.stdin = open("N과 M(1).txt", "r")
+sys.stdin = open("N과 M (1).txt", "r")
 input = sys.stdin.readline
 
 
