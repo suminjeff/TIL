@@ -68,6 +68,7 @@ for i in range(1, 1 << N//2):
                     subset.append(ops[j])
             else:
                 subset.append(ops[j])
+    print(subset)
     max_v = max(max_v, prioritize(subset))
 
 print(max_v)
