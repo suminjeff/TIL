@@ -8,8 +8,8 @@ def nCr(n, r, res):
     if n == len(position):
         if len(res) == r:
             cnt = shoot(res)
-            print(cnt)
-            print()
+            print(cnt, res)
+            # print()
             max_cnt = max(max_cnt, cnt)
         return
     res.append(position[n])
@@ -19,7 +19,6 @@ def nCr(n, r, res):
 
 
 def shoot(archer_position):
-    a1, a2, a3 = archer_position
     kill_cnt = 0
     killed = [[0]*M for _ in range(N)]
     wave = N-1
@@ -27,7 +26,7 @@ def shoot(archer_position):
         visited = [[0]*M for _ in range(N)]
         for c in archer_position:
             t = target(c, r, D, killed, visited)
-            print(t, c)
+            # print(t, c)
             if t:
                 killed[t][c] = 1
                 kill_cnt += 1
@@ -52,7 +51,7 @@ def target(archer, wave, shot_range, killed, visited):
 
 
 
-shooting_direction = [[0, -1], [-1, 0], [0, -1]]
+shooting_direction = [[0, -1], [-1, 0], [0, 1]]
 
 N, M, D = map(int, input().split())
 enemy = [list(map(int, input().split())) for _ in range(N)] + [[2]*M]
