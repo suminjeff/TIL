@@ -1,78 +1,55 @@
 import sys
-
 sys.stdin = open("빙산.txt", "r")
+input = sys.stdin.readline
+from collections import deque
 
 
-def adj_list(icebergs):
-    adj_l = {}
-    for r, c in icebergs:
-        value = []
-        for k in range(4):
-            nr = r + dr[k]
-            nc = c + dc[k]
-            if 0 <= nr < N and 0 <= nc < M and arr[nr][nc]:
-                value.append([nr, nc])
-        adj_l.setdefault((r, c), value)
-    return adj_l
+def dfs(r, c, visited):
+    visited[r][c] = 1
+    for dr, dc in delta:
+        nr, nc = r + dr, c + dc
+        if 0 <= nr < N and 0 <= nc < M and arr[nr][nc] > 0 and not visited[nr][nc]:
+            dfs(nr, nc, visited)
 
 
-def dfs(p, q, visited, adj_l):
-    visited[p][q] = 1
-    for r, c in adj_l[(p, q)]:
-        if not visited[r][c]:
-            dfs(r, c, visited, adj_l)
-
-
-def isConnected(icebergs):
-    global N
-    global M
-    adj_l = adj_list(icebergs)
-    p, q = icebergs[0]
-    dfs(p, q, visited, adj_l)
-    for r, c in icebergs:
-        if visited[r][c] == 0:
-            return False
-    return True
+def is_connected():
+    visited = [[0]*M for _ in range(N)]
+    if icebergs:
+        dfs(icebergs[0][0], icebergs[0][1], visited)
+        for r, c, v, y in icebergs:
+            if visited[r][c] == 0:
+                return False
+        return True
+    else:
+        return False
 
 
 N, M = map(int, input().split())
 arr = [list(map(int, input().split())) for _ in range(N)]
 
-dr = [0, 1, 0, -1]
-dc = [1, 0, -1, 0]
+delta = [[1, 0], [0, 1], [-1, 0], [0, -1]]
+sea = [[0]*M for _ in range(N)]
 
-icebergs = []
+icebergs = deque()
 for r in range(N):
     for c in range(M):
         if arr[r][c]:
-            icebergs.append([r, c])
+            icebergs.append((r, c, arr[r][c], 0))
+            for dr, dc in delta:
+                nr, nc = r + dr, c + dc
+                if 0 <= nr < N and 0 <= nc < M and arr[nr][nc] == 0:
+                    sea[r][c] += 1
 
 year = 0
-ans = 0
-while icebergs:
-    temp = [[0]*M for _ in range(N)]
-    new_icebergs = []
-    for i in range(len(icebergs)):
-        r, c = icebergs[i]
-        cnt = 0
-        for k in range(4):
-            nr = r + dr[k]
-            nc = c + dc[k]
-            if 0 <= nr < N and 0 <= nc < M and not arr[nr][nc]:
-                cnt += 1
-        temp[r][c] = 0 if arr[r][c] - cnt <= 0 else arr[r][c] - cnt
-        if temp[r][c]:
-            new_icebergs.append([r, c])
-    for i in range(N):
-        for j in range(M):
-            arr[i][j] = temp[i][j]
-    icebergs = new_icebergs
-    year += 1
-    if icebergs:
-        visited = [[0] * M for _ in range(N)]
-        if not isConnected(icebergs):
-            ans = year
-            break
+while is_connected():
+    print(icebergs)
+    r, c, v, y = icebergs.popleft()
+    v -= sea[r][c]
+    if v <= 0:
+        v = 0
+        for dr, dc in delta:
+            nr, nc = r + dr, c + dc
+            if 0 <= nr < N and 0 <= nc < M and arr[nr][nc] >= 0:
+                sea[nr][nc] += 1
     else:
-        break
-print(ans)
+        icebergs.append((r, c, v, y+1))
