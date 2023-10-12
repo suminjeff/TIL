@@ -11,25 +11,28 @@ def distance(r, c, EXIT):
 def turn90(rectangle):
     global EXIT
     r, c, length = rectangle
-    turned_rectangle = [[0]*N for _ in range(N)]
-    exit_and_person = [[0]*N for _ in range(N)]
-    exit_and_person[EXIT[0]][EXIT[1]] = "EXIT"
-    for pr, pc in people:
-        exit_and_person[pr][pc] = "PERSON"
-    turned_exit_and_person = [[0]*N for _ in range(N)]
+    turned = [[0]*N for _ in range(N)]
+    stack = []
     for i in range(r, r+length):
         for j in range(c, c+length):
-            if [i, j] in people:
+            v = arr[i][j]
+            if v == "PERSON":
                 people.remove([i, j])
-            turned_exit_and_person[j][length-i-1] = exit_and_person[i][j]
-            turned_rectangle[j][length-i-1] = arr[i][j] - 1 if arr[i][j] - 1 >= 0 else 0
+            elif type(v) == int and v > 0:
+                v -= 1
+            stack.append(v)
+    for j in range(c+length-1, c-1, -1):
+        for i in range(r, r+length):
+            turned[i][j] = stack.pop(0)
+
     for i in range(r, r+length):
         for j in range(c, c+length):
-            arr[i][j] = turned_rectangle[i][j]
-            if turned_rectangle[i][j] == "EXIT":
+            arr[i][j] = turned[i][j]
+            if turned[i][j] == "EXIT":
                 EXIT = [i, j]
-            elif turned_rectangle[i][j] == "PERSON":
+            elif turned[i][j] == "PERSON":
                 people.append([i, j])
+
 
 def find_closest_person(EXIT):
     r, c = EXIT
@@ -39,7 +42,7 @@ def find_closest_person(EXIT):
     que.append([r, c, 0])
     while que:
         r, c, d = que.popleft()
-        if [r, c] in people:
+        if arr[r][c] == 'PERSON':
             return [r, c]
         for dr, dc in find_closest_delta:
             nr, nc = r + dr, c + dc
@@ -50,28 +53,18 @@ def find_closest_person(EXIT):
 
 def find_smallest_rectangle(EXIT, person):
     length = max(abs(EXIT[0]-person[0]), abs(EXIT[1]-person[1])) + 1
-    # 좌상
-    if EXIT[0] >= person[0] and EXIT[1] >= person[1]:
-        idx = 0
-    # 우상
-    elif EXIT[0] >= person[0] and EXIT[1] <= person[1]:
-        idx = 1
-    # 좌하
-    elif EXIT[0] <= person[0] and EXIT[1] >= person[1]:
-        idx = 2
-    # 우하
-    # elif EXIT[0] <= person[0] and EXIT[1] <= person[1]:
-    else:
-        idx = 3
-    r, c = EXIT
-    dr, dc = find_smallest_delta[idx]
-    for _ in range(length-1):
-        nr, nc = r + dr, c + dc
-        if 0 <= nr < N:
-            r = nr
-        if 0 <= nc < N:
-            c = nc
-    return [r, c, length]
+    for i in range(N):
+        for j in range(N):
+            isExit = False
+            isPerson = False
+            for si in range(i, i+length):
+                for sj in range(j, j+length):
+                    if [si, sj] == EXIT:
+                        isExit = True
+                    elif [si, sj] == person:
+                        isPerson = True
+            if isExit and isPerson:
+                return [i, j, length]
 
 
 find_smallest_delta = [[-1, -1], [-1, 1], [1, -1], [1, 1]]
@@ -85,40 +78,55 @@ people = deque()
 for _ in range(M):
     pr, pc = map(int, input().split())
     people.append([pr-1, pc-1])
+    arr[pr-1][pc-1] = 'PERSON'
+    print(pr-1, pc-1, arr[pr-1][pc-1])
 EXIT = list(map(int, input().split()))
 EXIT[0] -= 1
 EXIT[1] -= 1
-
+arr[EXIT[0]][EXIT[1]] = 'EXIT'
 cnt = 0
 while people:
     if K == 0:
         break
-
     # 이동
     for _ in range(len(people)):
         r, c = people.popleft()
         flag = False
         for dr, dc in moving_delta:
             nr, nc = r + dr, c + dc
-            if 0 <= nr < N and 0 <= nc < N and arr[nr][nc] == 0:
-                if [nr, nc] == EXIT:
-                    flag = True
-                    break
-                else:
-                    if distance(r, c, EXIT) > distance(nr, nc, EXIT):
-                        cnt += 1
-                        people.append([nr, nc])
+            if 0 <= nr < N and 0 <= nc < N:
+                if arr[nr][nc] == 'PERSON' or arr[nr][nc] == 'EXIT' or arr[nr][nc] == 0:
+                    if arr[nr][nc] == 'EXIT':
+                        if arr[r][c] == 'PERSON':
+                            cnt += 1
+                            arr[r][c] = 0
                         flag = True
                         break
+                    else:
+                        if (distance(r, c, EXIT) > distance(nr, nc, EXIT)) and arr[nr][nc] == 0:
+                            if arr[r][c] == 'PERSON':
+                                arr[r][c], arr[nr][nc] = arr[nr][nc], arr[r][c]
+                            cnt += 1
+                            people.append([nr, nc])
+                            flag = True
+                            break
         if not flag:
             people.append([r, c])
     # 회전
     person = find_closest_person(EXIT)
     rectangle = find_smallest_rectangle(EXIT, person)
+    print("person :", person, "rectangle :", rectangle)
+    print("people :", people)
+    print("before :", *arr, sep="\n")
+    print("TURN")
     turn90(rectangle)
+    print("people :", people)
+    print("after :", *arr, sep="\n")
+    print()
+    print()
     # 시간 빼기
     K -= 1
 
 print(cnt)
-print(EXIT)
+print(EXIT[0]+1, EXIT[1]+1)
 
