@@ -1,16 +1,9 @@
 import sys
+
 sys.stdin = open('아기 상어.txt', 'r')
 input = sys.stdin.readline
 
 from collections import deque
-
-
-def find_candidates(r, c, bs_size, fish_pos):
-
-    for i in range(1, bs_size):
-        for fr, fc in fish_pos[i]:
-
-
 
 N = int(input())
 arr = [list(map(int, input().split())) for _ in range(N)]
@@ -34,26 +27,37 @@ arr = [list(map(int, input().split())) for _ in range(N)]
 # fish_N = 먹을 수 있는 물고기
 bs_size = 2
 bs_pos = []
-f_pos = [[] for _ in range(7)]
-candidates = []
+# f_pos = [[] for _ in range(7)]
+total_fish = 0
+edible_fish = 0
 for i in range(N):
     for j in range(N):
         v = arr[i][j]
         if 1 <= v <= 6:
-            f_pos[v].append([i, j])
+            # f_pos[v].append([i, j])
+            total_fish += 1
             if v < bs_size:
-                candidates.append([i, j])
+                edible_fish += 1
         elif v == 9:
-            bs_pos = [i, j]
-for i in range(1, 7):
-    f_pos[i].sort(key=lambda x:(x[0], x[1]))
-
-
-
-
+            bs_pos = [0, i, j, bs_size]
+# for i in range(1, 7):
+#     f_pos[i].sort(key=lambda x: (x[0], x[1]))
 
 # 먹을 수 있는 물고기가 있는 동안 반복 (엄마 상어에게 도움을 청하기 직전까지)
 # T = 지난 시간
-
-
-print(f_pos)
+while True:
+    que = deque()
+    que.append(bs_pos[:])
+    candidates = []
+    visited = [[0]*N for _ in range(N)]
+    eat_fish = False
+    while que:
+        for i in range(len(que)):
+            d, r, c, z = que.popleft()
+            for nr, nc in [[r+1, c], [r-1, c], [r, c+1], [r, c-1]]:
+                if 0 <= nr < N and 0 <= nc < N and visited[nr][nc] == 0 and z > arr[nr][nc]:
+                    visited[nr][nc] = 1
+                    que.append([d+1, nr, nc, z])
+                    if 1 <= arr[nr][nc] <= 6:
+                        eat_fish = True
+                        candidates.append([d+1, nr, nc, z])
