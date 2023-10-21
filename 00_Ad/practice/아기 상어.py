@@ -24,40 +24,27 @@ arr = [list(map(int, input().split())) for _ in range(N)]
 # 문제 : 아기 상어가 몇 초 동안 엄마 상어에게 도움을 청하지 않고 물고기를 잡아먹을 수 있는지 구하기
 
 # 아기 상어의 위치와 먹을 수 있는 물고기의 개수 세기
-# fish_N = 먹을 수 있는 물고기
+# fish_N = 먹을 수 있는 물고기 
 bs_size = 2
 bs_pos = []
-# f_pos = [[] for _ in range(7)]
 total_fish = 0
 edible_fish = 0
 for i in range(N):
     for j in range(N):
         v = arr[i][j]
-        if 1 <= v <= 6:
-            # f_pos[v].append([i, j])
+        if 0 < v <= 6:
             total_fish += 1
-            if v < bs_size:
-                edible_fish += 1
-        elif v == 9:
+        if v == 9:
             bs_pos = [0, i, j, bs_size]
-# for i in range(1, 7):
-#     f_pos[i].sort(key=lambda x: (x[0], x[1]))
-
-# 먹을 수 있는 물고기가 있는 동안 반복 (엄마 상어에게 도움을 청하기 직전까지)
-# T = 지난 시간
-while True:
+T = 0
+for _ in range(total_fish):
     que = deque()
-    que.append(bs_pos[:])
+    que.append(bs_pos)
     candidates = []
-    visited = [[0]*N for _ in range(N)]
-    eat_fish = False
+    min_d = float('inf')
     while que:
-        for i in range(len(que)):
-            d, r, c, z = que.popleft()
-            for nr, nc in [[r+1, c], [r-1, c], [r, c+1], [r, c-1]]:
-                if 0 <= nr < N and 0 <= nc < N and visited[nr][nc] == 0 and z > arr[nr][nc]:
-                    visited[nr][nc] = 1
-                    que.append([d+1, nr, nc, z])
-                    if 1 <= arr[nr][nc] <= 6:
-                        eat_fish = True
-                        candidates.append([d+1, nr, nc, z])
+        d, r, c, z = que.popleft()
+        if 0 < arr[r][c] < bs_size and min_d >= d:
+            candidates.append([d, r, c, z])
+            continue
+        for i in
