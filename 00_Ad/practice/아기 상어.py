@@ -1,12 +1,3 @@
-import sys
-
-sys.stdin = open('아기 상어.txt', 'r')
-input = sys.stdin.readline
-
-from collections import deque
-
-N = int(input())
-arr = [list(map(int, input().split())) for _ in range(N)]
 # 9: 아기상어의 위치
 # 1~6: 물고기의 크기
 # 이동 조건
@@ -23,28 +14,58 @@ arr = [list(map(int, input().split())) for _ in range(N)]
 # 3. 아기 상어는 자신의 크기와 같은 수의 물고기를 먹을 때 마다 크기가 1 증가
 # 문제 : 아기 상어가 몇 초 동안 엄마 상어에게 도움을 청하지 않고 물고기를 잡아먹을 수 있는지 구하기
 
-# 아기 상어의 위치와 먹을 수 있는 물고기의 개수 세기
-# fish_N = 먹을 수 있는 물고기 
-bs_size = 2
-bs_pos = []
-total_fish = 0
-edible_fish = 0
-for i in range(N):
-    for j in range(N):
-        v = arr[i][j]
-        if 0 < v <= 6:
-            total_fish += 1
-        if v == 9:
-            bs_pos = [0, i, j, bs_size]
-T = 0
-for _ in range(total_fish):
+import sys
+
+sys.stdin = open('아기 상어.txt', 'r')
+input = sys.stdin.readline
+
+from collections import deque
+import heapq
+
+def starting_point():
+    for i in range(N):
+        for j in range(N):
+            if arr[i][j] == 9:
+                return [i, j]
+
+
+N = int(input())
+arr = [list(map(int, input().split())) for _ in range(N)]
+start = starting_point()
+size = 2
+eat = 0
+arr[start[0]][start[1]] = 0
+ans = 0
+while True:
     que = deque()
-    que.append(bs_pos)
+    que.append([start, 0])
+    visited = [[0]*N for _ in range(N)]
+    visited[start[0]][start[1]] = 1
+    min_depth = float('inf')
+    # 먹을 수 있는 물고기 후보 찾기
     candidates = []
-    min_d = float('inf')
     while que:
-        d, r, c, z = que.popleft()
-        if 0 < arr[r][c] < bs_size and min_d >= d:
-            candidates.append([d, r, c, z])
-            continue
-        for i in
+        coordinate, depth = que.popleft()
+        if depth <= min_depth:
+            r, c = coordinate
+            for nr, nc in [[r+1, c], [r-1, c], [r, c+1], [r, c-1]]:
+                if 0 <= nr < N and 0 <= nc < N and 0 <= arr[nr][nc] <= size and visited[nr][nc] == 0:
+                    visited[nr][nc] = 1
+                    if 0 < arr[nr][nc] < size:
+                        min_depth = min(min_depth, depth+1)
+                        heapq.heappush(candidates, [depth+1, nr, nc])
+                    else:
+                        que.append([[nr, nc], depth+1])
+    # break
+    if candidates:
+        distance, fr, fc = heapq.heappop(candidates)
+        arr[fr][fc] = 0
+        start = [fr, fc]
+        eat += 1
+        ans += distance
+        if eat == size:
+            eat = 0
+            size += 1
+    else:
+        break
+print(ans)
