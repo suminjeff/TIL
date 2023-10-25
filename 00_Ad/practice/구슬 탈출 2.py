@@ -5,6 +5,15 @@ input = sys.stdin.readline
 
 from copy import deepcopy
 
+# 각각의 동작에서 공은 동시에 움직인다
+# 빨간 구슬이 구멍에 빠지면 성공이지만 파란 구슬이 구멍에 빠지면 실패다
+# 빨간 구슬과 파란 구슬이 동싱에 구멍에 빠져도 실패다
+# 빨간 구슬과 파란 구슬은 동시에 같은 칸에 있을 수 없다
+# 빨간 구슬과 파란 구슬의 크기는 한 칸을 모두 차지한다
+# 기울이는 동작을 그만하는 것은 더 이상 구슬이 움직이지 않을 때 까지이다
+
+# 최소 몇 번 만에 빨간 구슬을 구멍을 통해 빼낼 수 있는지 구하기
+
 
 def backtrack(depth, past_direction):
     global min_depth
@@ -59,12 +68,6 @@ def turn(direction):
             position[color] = [r, c]
 
 
-def reset(red_pos, blue_pos, changed_red, changed_blue, red_goal, blue_goal):
-    board[red_pos[0]][red_pos[1]], board[changed_red[0]][changed_red[1]] = "R", "."
-    board[blue_pos[0]][blue_pos[1]], board[changed_blue[0]][changed_blue[1]] = "B", "."
-    goal_in["R"], goal_in["B"] = red_goal, blue_goal
-
-
 N, M = map(int, input().split())
 board = [list(input().rstrip()) for _ in range(N)]
 delta = [[0, -1], [0, 1], [-1, 0], [1, 0]]
@@ -80,24 +83,13 @@ for i in range(N):
             position.setdefault("B", [i, j])
         elif v == "O":
             position.setdefault("H", [i, j])
-# backtrack(0)
+
+# backtrack(0, -1)
 # print(min_depth)
 
-backtrack(0, -1)
-print(min_depth)
-
-# turn(0)
-# print(*board, sep="\n")
-# print()
-# turn(3)
-# print(*board, sep="\n")
-# print()
-# turn(1)
-# print(*board, sep="\n")
-# print()
-# turn(3)
-# print(*board, sep="\n")
-# print()
-# turn(0)
-# print(*board, sep="\n")
-# print(position["R"], position["B"])
+turn(0)
+print(*board, sep="\n")
+print()
+turn(3)
+print(*board, sep="\n")
+print()
