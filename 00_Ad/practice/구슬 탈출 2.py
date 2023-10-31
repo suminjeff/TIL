@@ -3,7 +3,44 @@ import sys
 sys.stdin = open('구슬 탈출 2.txt', 'r')
 input = sys.stdin.readline
 
-from copy import deepcopy
+from collections import deque
+
+
+def move(x, y, dx, dy):
+    cnt = 1
+    while arr[x+dx][y+dy] != "#" and arr[x][y] != "O":
+        x += dx
+        y += dy
+        cnt += 1
+    return x, y, cnt
+
+
+def bfs(rx, ry, bx, by):
+    que = deque([(rx, ry, bx, by, 1)])
+    while que:
+        rx, ry, bx, by, depth = que.popleft()
+        if depth > 10:
+            break
+        for dx, dy in [[1, 0], [0, 1], [-1, 0], [0, -1]]:
+            nrx, nry, rcnt = move(rx, ry, dx, dy)
+            nbx, nby, bcnt = move(bx, by, dx, dy)
+            if arr[nbx][nby] == "O":
+                continue
+            if arr[nrx][nry] == "O":
+                print(depth)
+                return
+            if nrx == nbx and nry == nby:
+                if rcnt > bcnt:
+                    nrx -= dx
+                    nry -= dy
+                else:
+                    nbx -= dx
+                    nby -= dy
+            if not visited[nrx][nry][nbx][nby]:
+                visited[nrx][nry][nbx][nby] = 1
+                que.append((nrx, nry, nbx, nby, depth+1))
+    print(-1)
+
 
 # 각각의 동작에서 공은 동시에 움직인다
 # 빨간 구슬이 구멍에 빠지면 성공이지만 파란 구슬이 구멍에 빠지면 실패다
@@ -14,82 +51,16 @@ from copy import deepcopy
 
 # 최소 몇 번 만에 빨간 구슬을 구멍을 통해 빼낼 수 있는지 구하기
 
-
-def backtrack(depth, past_direction):
-    global min_depth
-    global board
-    print(">>>>>>", depth, past_direction)
-    print(*board, sep="\n")
-    print(goal_in)
-    print()
-    if depth >= min_depth:
-        return
-    if depth >= 10:
-        if goal_in["R"] is True and goal_in["B"] is False:
-            min_depth = min(min_depth, depth)
-        return
-    if goal_in["R"] is True and goal_in["B"] is False:
-        min_depth = min(min_depth, depth)
-        return
-    red_pos, blue_pos = position["R"], position["B"]
-    red_goal, blue_goal = goal_in["R"], goal_in["B"]
-    for direction in range(4):
-        if direction != past_direction:
-            turn(direction)
-            backtrack(depth + 1, direction)
-            # reset(red_pos, blue_pos, position["R"], position["B"], red_goal, blue_goal)
-            # goal_in["R"], goal_in["B"] = red_goal, blue_goal
-
-
-# 0: 왼쪽, 1: 오른쪽, 2: 위쪽, 3: 아래쪽
-def turn(direction):
-    rr, rc = position["R"]
-    br, bc = position["B"]
-    board[rr][rc] = board[br][bc] = "."
-    marbles = [[rr, rc, "R"], [br, bc, "B"]]
-    if direction == 0:
-        marbles.sort(key=lambda x: x[1])
-    elif direction == 1:
-        marbles.sort(key=lambda x: x[1], reverse=True)
-    elif direction == 2:
-        marbles.sort(key=lambda x: x[0])
-    elif direction == 3:
-        marbles.sort(key=lambda x: x[0], reverse=True)
-    for r, c, color in marbles:
-        while board[r][c] == ".":
-            r, c = r + delta[direction][0], c + delta[direction][1]
-            if board[r][c] == "O":
-                goal_in[color] = True
-                position[color] = [r, c]
-                break
-        if not goal_in[color]:
-            r, c = r - delta[direction][0], c - delta[direction][1]
-            board[r][c] = color
-            position[color] = [r, c]
-
-
 N, M = map(int, input().split())
-board = [list(input().rstrip()) for _ in range(N)]
-delta = [[0, -1], [0, 1], [-1, 0], [1, 0]]
-position = {}
-goal_in = {"R": False, "B": False}
-min_depth = 11
+arr = [input().rstrip() for _ in range(N)]
+visited = [[[[0]*M for _ in range(N)] for _ in range(M)] for _ in range(N)]
+
+rx, ry, bx, by = [0]*4
 for i in range(N):
     for j in range(M):
-        v = board[i][j]
-        if v == "R":
-            position.setdefault("R", [i, j])
-        elif v == "B":
-            position.setdefault("B", [i, j])
-        elif v == "O":
-            position.setdefault("H", [i, j])
-
-# backtrack(0, -1)
-# print(min_depth)
-
-turn(0)
-print(*board, sep="\n")
-print()
-turn(3)
-print(*board, sep="\n")
-print()
+        if arr[i][j] == "R":
+            rx, ry = i, j
+        elif arr[i][j] == "B":
+            bx, by = i, j
+visited[rx][ry][bx][by] = 1
+bfs(rx, ry, bx, by)
