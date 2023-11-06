@@ -17,3 +17,4 @@ class SampleUser(HttpUser):
     # @task
     # def bubble_sort(self):
     #     self.client.get("test/bubble_sort/")
+
