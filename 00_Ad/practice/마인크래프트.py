@@ -24,3 +24,4 @@ for level in range(257):
     if count <= ans_t:
         ans_t = count
         ans_level = level
+print(ans_t, ans_level)
