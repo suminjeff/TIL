@@ -13,7 +13,7 @@ def dfs(r, c):
         if 0 <= nr < M and 0 <= nc < N and arr[r][c] > arr[nr][nc] and visited[nr][nc] == 0:
             visited[nr][nc] = 1
             dfs(nr, nc)
-            visited[nr][nc] = 0
+            # visited[nr][nc] = 0
 
 
 M, N = map(int, input().split())
@@ -23,3 +23,4 @@ visited[0][0] = 1
 ans = 0
 dfs(0, 0)
 print(ans)
+print(*visited, sep='\n')
