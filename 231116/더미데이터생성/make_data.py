@@ -139,7 +139,7 @@ def random_address():
 DP_URL = 'http://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json'
 SP_URL = 'http://finlife.fss.or.kr/finlifeapi/savingProductsSearch.json'
 
-API_KEY = '87e58aba3d85bf50fb8d9f671679c025'
+API_KEY = ''
 
 # financial_products = []
 deposit_products = []
