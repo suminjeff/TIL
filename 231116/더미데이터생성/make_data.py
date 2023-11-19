@@ -25,8 +25,8 @@ first_name_samples = "김이박최정강조윤장임한오서신권황안송전�
 middle_name_samples = "민서예지도하주윤채현지수우윤재승영유준운건일찬해상도금대진"
 last_name_samples = "준윤우원호후서연아은진민원주정언빈경용규휘수은영호의란범광훈현"
 
-city_samples = ['서울특별시', '부산광역시', '대전광역시', '대구광역시', '인천광역시', '광주광역시', '수원시', '용인시', '성남시']
-gu_samples = [{
+city_samples = ['서울특별시', '부산광역시', '대전광역시', '대구광역시', '인천광역시', '광주광역시', '수원시', '용인시']
+gu_samples = {
   "서울특별시": [
     "강남구",
     "강동구",
@@ -117,7 +117,7 @@ gu_samples = [{
     "수지구",
     "처인구"
   ]
-}]
+}
 
 
 def random_name():
@@ -139,7 +139,7 @@ def random_address():
 DP_URL = 'http://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json'
 SP_URL = 'http://finlife.fss.or.kr/finlifeapi/savingProductsSearch.json'
 
-API_KEY = ''
+API_KEY = '87e58aba3d85bf50fb8d9f671679c025'
 
 # financial_products = []
 deposit_products = []
@@ -195,6 +195,9 @@ while i < N:
     address_list.append(ra)
     i += 1
 
+
+  
+
     
 # 저장 위치는 프로젝트 구조에 맞게 수정합니다.
 save_dir = './user_data.json'
@@ -213,9 +216,8 @@ with open(save_dir, 'w', encoding="utf-8") as f:
             'address': address_list[i],
             'gender': bool(random.randint(0, 1)),
             # 랜덤한 0~5개의 상품을 가입하도록 삽입됨
-            # 'financial_products': ','.join([random.choice(financial_products) for _ in range(random.randint(0, 5))]), # 금융 상품 리스트
-            'deposit_products': ','.join([random.choice(deposit_products) for _ in range(random.randint(0, 5))]), # 금융 상품 리스트
-            'saving_products': ','.join([random.choice(saving_products) for _ in range(random.randint(0, 5))]), # 금융 상품 리스트
+            # 'deposit_products': ','.join([random.choice(deposit_products) for _ in range(random.randint(0, 5))]), # 금융 상품 리스트
+            # 'saving_products': ','.join([random.choice(saving_products) for _ in range(random.randint(0, 5))]), # 금융 상품 리스트
             # 'age': random.randint(1, 100),  # 나이
             'balance': random.randrange(0, 100000000, 100000),    # 현재 가진 금액
             'salary': random.randrange(0, 1500000000, 1000000), # 연봉
@@ -228,6 +230,32 @@ with open(save_dir, 'w', encoding="utf-8") as f:
 
         json.dump(file, f, ensure_ascii=False, indent="\t")
         if i != N-1:
+            f.write(',')
+    f.write(']')
+    f.close()
+print(f'데이터 생성 완료 / 저장 위치: {save_dir}')
+
+
+
+# 저장 위치는 프로젝트 구조에 맞게 수정합니다.
+save_dir = './article_data.json'
+with open(save_dir, 'w', encoding="utf-8") as f:
+    f.write('[')
+    
+    for i in range(1000):
+        # 랜덤한 데이터를 삽입
+        file["model"] = "articles.Article"
+        file["pk"] = i+1
+        file["fields"] = {
+            'user' : random.randint(1, 10000),
+            'title': f'title{i}',
+            'content': f'content{i}',
+            'created_at' : '2023-11-'+str(random.randint(1, 15)).zfill(2)+' '+str(random.randint(0, 23)).zfill(2)+':'+str(random.randint(0, 59)).zfill(2)+'.000000-08:00',
+            'updated_at' : '2023-11-'+str(random.randint(16, 30)).zfill(2)+' '+str(random.randint(0, 23)).zfill(2)+':'+str(random.randint(0, 59)).zfill(2)+'.000000-08:00'
+        }
+
+        json.dump(file, f, ensure_ascii=False, indent="\t")
+        if i != 1000-1:
             f.write(',')
     f.write(']')
     f.close()
