@@ -119,6 +119,14 @@ gu_samples = {
   ]
 }
 
+random_ascii_username = list(range(48, 58)) + list(range(65, 91)) + list(range(97, 123))
+def random_username():
+    length = random.randint(8, 20)
+    result = ""
+    for _ in range(length):
+        result += str(chr(random_ascii_username[random.randint(0, 61)]))
+    return result
+
 
 def random_name():
     result = ""
@@ -126,6 +134,7 @@ def random_name():
     result += random.choice(middle_name_samples)
     result += random.choice(last_name_samples)
     return result
+
 
 def random_address():
     result = ""
@@ -180,17 +189,20 @@ from collections import OrderedDict
 file = OrderedDict()
 
 username_list = []
+name_list = []
 nickname_list = []
 address_list = []
 N = 10000
 i = 0
 
 while i < N:
+    ru = random_username()
     rn = random_name()
     ra = random_address()
-    if rn in username_list:
+    if rn in name_list or ru in username_list:
         continue
-    username_list.append(rn)
+    username_list.append(ru)
+    name_list.append(rn)
     nickname_list.append(rn+str(random.randint(1, 100)))
     address_list.append(ra)
     i += 1
@@ -209,15 +221,15 @@ with open(save_dir, 'w', encoding="utf-8") as f:
         file["model"] = "accounts.User"
         file["pk"] = i+1
         file["fields"] = {
-            'username': username_list[i],  # 유저 이름 랜덤 생성
-            'first_name': username_list[i][0],
-            'last_name': username_list[i][1:],
+            'username': username_list[i],  # 유저 ID 생성
+            'first_name': name_list[i][0],
+            'last_name': name_list[i][1:],
             'nickname': nickname_list[i],
             'address': address_list[i],
             'gender': bool(random.randint(0, 1)),
             # 랜덤한 0~5개의 상품을 가입하도록 삽입됨
-            # 'deposit_products': ','.join([random.choice(deposit_products) for _ in range(random.randint(0, 5))]), # 금융 상품 리스트
-            # 'saving_products': ','.join([random.choice(saving_products) for _ in range(random.randint(0, 5))]), # 금융 상품 리스트
+            'deposit_products': ','.join([random.choice(deposit_products) for _ in range(random.randint(0, 5))]), # 금융 상품 리스트
+            'saving_products': ','.join([random.choice(saving_products) for _ in range(random.randint(0, 5))]), # 금융 상품 리스트
             # 'age': random.randint(1, 100),  # 나이
             'balance': random.randrange(0, 100000000, 100000),    # 현재 가진 금액
             'salary': random.randrange(0, 1500000000, 1000000), # 연봉
@@ -238,6 +250,7 @@ print(f'데이터 생성 완료 / 저장 위치: {save_dir}')
 
 
 # 저장 위치는 프로젝트 구조에 맞게 수정합니다.
+board_types = ['free', 'notice', 'qna']
 save_dir = './article_data.json'
 with open(save_dir, 'w', encoding="utf-8") as f:
     f.write('[')
@@ -250,12 +263,38 @@ with open(save_dir, 'w', encoding="utf-8") as f:
             'user' : random.randint(1, 10000),
             'title': f'title{i}',
             'content': f'content{i}',
+            'board_type': board_types[random.randint(0, 2)],
             'created_at' : '2023-11-'+str(random.randint(1, 15)).zfill(2)+' '+str(random.randint(0, 23)).zfill(2)+':'+str(random.randint(0, 59)).zfill(2)+'.000000-08:00',
             'updated_at' : '2023-11-'+str(random.randint(16, 30)).zfill(2)+' '+str(random.randint(0, 23)).zfill(2)+':'+str(random.randint(0, 59)).zfill(2)+'.000000-08:00'
         }
 
         json.dump(file, f, ensure_ascii=False, indent="\t")
         if i != 1000-1:
+            f.write(',')
+    f.write(']')
+    f.close()
+
+print(f'데이터 생성 완료 / 저장 위치: {save_dir}')
+
+# 저장 위치는 프로젝트 구조에 맞게 수정합니다.
+save_dir = './comment_data.json'
+with open(save_dir, 'w', encoding="utf-8") as f:
+    f.write('[')
+    
+    for i in range(3000):
+        # 랜덤한 데이터를 삽입
+        file["model"] = "articles.Comment"
+        file["pk"] = i+1
+        file["fields"] = {
+            'user' : random.randint(1, 10000),
+            'article': random.randint(1, 1000),
+            'content': f'content{i}',
+            'created_at' : '2023-11-'+str(random.randint(16, 20)).zfill(2)+' '+str(random.randint(0, 23)).zfill(2)+':'+str(random.randint(0, 59)).zfill(2)+'.000000-08:00',
+            # 'updated_at' : '2023-11-'+str(random.randint(21, 30)).zfill(2)+' '+str(random.randint(0, 23)).zfill(2)+':'+str(random.randint(0, 59)).zfill(2)+'.000000-08:00'
+        }
+
+        json.dump(file, f, ensure_ascii=False, indent="\t")
+        if i != 3000-1:
             f.write(',')
     f.write(']')
     f.close()
