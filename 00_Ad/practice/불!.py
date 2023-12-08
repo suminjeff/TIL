@@ -18,31 +18,28 @@ for i in range(R):
         elif arr[i][j] == 'F':
             fire_visited[i][j] = 1
             fire.append([i, j])
-ans = -1
 
 while fire:
     r, c = fire.popleft()
     for nr, nc in [[r+1, c], [r-1, c], [r, c+1], [r, c-1]]:
-        if 0 <= nr < R and 0 <= nc < C and fire_visited[nr][nc] == 0:
+        if 0 <= nr < R and 0 <= nc < C and arr[nr][nc] in ".J" and fire_visited[nr][nc] == 0:
             fire_visited[nr][nc] = fire_visited[r][c] + 1
             fire.append([nr, nc])
-print(*fire_visited, sep='\n')
+# print(*fire_visited, sep='\n')
 ans = "IMPOSSIBLE"
 while ji:
     r, c = ji.popleft()
+    if r == 0 or r == R-1 or c == 0 or c == C-1:
+        ans = visited[r][c]
+        break
     for nr, nc in [[r+1, c], [r-1, c], [r, c+1], [r, c-1]]:
         if 0 <= nr < R and 0 <= nc < C and arr[nr][nc] in ".J" and visited[nr][nc] == 0:
-            if 1 <= nr < R-1 and 1 <= nc < C-1:
-                if fire_visited[nr][nc] > visited[r][c]+1:
-                    visited[nr][nc] = visited[r][c] + 1
-                    ji.append([nr, nc])
-            else:
-                visited[nr][nc] = visited[r][c]+1
-                ans = visited[nr][nc]
-    if ans != "IMPOSSIBLE":
-        break
-print()
-print(*visited, sep='\n')
+            if fire_visited[nr][nc] == 0 or fire_visited[nr][nc] > visited[r][c]+1:
+                visited[nr][nc] = visited[r][c] + 1
+                ji.append([nr, nc])
+
+# print()
+# print(*visited, sep='\n')
 print(ans)
 
 # while ji:
